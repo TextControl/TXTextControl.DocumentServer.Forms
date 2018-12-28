@@ -114,6 +114,21 @@ namespace TXTextControl.DocumentServer.Forms
     /*-------------------------------------------------------------------------------------------------------
     ** AcroFormChoice base class
     **-----------------------------------------------------------------------------------------------------*/
+    public class AcroFormTextField : AcroForm
+    {
+        public AcroFormTextField(AcroForm Parent) : base(Parent)
+        {
+        }
+
+        /// <summary>
+        /// Gets or sets the selected value of a choice list
+        /// </summary>
+        public string Value { get; set; }
+    }
+
+    /*-------------------------------------------------------------------------------------------------------
+    ** AcroFormChoice base class
+    **-----------------------------------------------------------------------------------------------------*/
     public class AcroFormChoice : AcroForm
     {
         public AcroFormChoice(AcroForm Parent) : base(Parent)

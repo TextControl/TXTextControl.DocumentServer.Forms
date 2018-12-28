@@ -70,6 +70,15 @@ namespace TXTextControl.DocumentServer.Forms
                 // switch between field types
                 switch (obj.FieldType)
                 {
+                    case FieldType.Tx:
+
+                        AcroFormTextField newAcroFormTextField = new AcroFormTextField(newAcroForm);
+                        newAcroFormTextField.Value = obj.FieldValue;
+
+                        lAcroForm.Add(newAcroFormTextField);
+
+                        break;
+
                     case FieldType.Btn: // in case of a button
 
                         if(obj.ButtonFieldFlags.IsPushbutton == false && // Case CheckBox
