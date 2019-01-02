@@ -64,7 +64,8 @@ namespace TXTextControl.DocumentServer.Forms
                 {
                     AlternateFieldName = obj.AlternateFieldName,
                     FieldName = obj.FieldName,
-                    FieldRect = obj.FieldRect
+                    FieldRect = obj.FieldRect,
+                    FieldType = obj.FieldType
                 };
 
                 // switch between field types

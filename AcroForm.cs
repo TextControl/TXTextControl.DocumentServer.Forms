@@ -26,6 +26,7 @@ namespace TXTextControl.DocumentServer.Forms
             this.AlternateFieldName = Parent.AlternateFieldName;
             this.FieldName = Parent.FieldName;
             this.FieldRect = Parent.FieldRect;
+            this.FieldType = Parent.FieldType;
         }
 
         /*-------------------------------------------------------------------------------------------------------
