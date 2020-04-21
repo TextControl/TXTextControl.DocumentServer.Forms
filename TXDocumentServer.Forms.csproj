@@ -44,9 +44,6 @@
     <Reference Include="TXTextControl.Server, Version=28.0.1300.500, Culture=neutral, PublicKeyToken=6b83fe9a75cfb638, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="TXTextControl.Windows.Forms, Version=28.0.1300.500, Culture=neutral, PublicKeyToken=6b83fe9a75cfb638, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcroForm.cs" />

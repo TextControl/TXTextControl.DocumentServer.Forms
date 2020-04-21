@@ -2,7 +2,7 @@
  * module:			TXTextControl.DocumentServer.Forms
  *
  * copyright:		© Text Control GmbH
- * version:			TextControl 26.0
+ * version:			TextControl 28.0
  *-----------------------------------------------------------------------------------------------------------*/
 
 using System.Collections.Generic;
@@ -17,29 +17,8 @@ namespace TXTextControl.DocumentServer.Forms
 	**-----------------------------------------------------------------------------------------------------*/
     public class PDF
     {
-        /*-------------------------------------------------------------------------------------------------------
-	    ** ImportForms method
-	    **-----------------------------------------------------------------------------------------------------*/
-        public static AcroForm[] ImportForms(string Filename)
+        private static AcroForm[] ProcessForm(string sAcroFormsXml)
         {
-            // check, if the file exists
-            if (File.Exists(Filename) == false)
-                throw new FileNotFoundException("The specified file could not be found.", Filename);
-
-            string sAcroFormsXml;
-
-            // create a temporary ServerTextControl to import the PDF form XML
-            using (TXTextControl.ServerTextControl tx = new TXTextControl.ServerTextControl())
-            {
-                tx.Create();
-                TXTextControl.LoadSettings ls = new TXTextControl.LoadSettings();
-                ls.PDFImportSettings = TXTextControl.PDFImportSettings.GenerateXML;
-
-                tx.Load(Filename, TXTextControl.StreamType.AdobePDF, ls);
-
-                sAcroFormsXml = tx.Text;
-            }
-
             // new XML document to load the resulting XML
             XmlDocument xmlDocument;
             xmlDocument = new XmlDocument();
@@ -82,7 +61,7 @@ namespace TXTextControl.DocumentServer.Forms
 
                     case FieldType.Btn: // in case of a button
 
-                        if(obj.ButtonFieldFlags.IsPushbutton == false && // Case CheckBox
+                        if (obj.ButtonFieldFlags.IsPushbutton == false && // Case CheckBox
                             obj.ButtonFieldFlags.IsRadio == false)
                         {
                             AcroFormCheckBox newAcroFormCheckBox = new AcroFormCheckBox(newAcroForm);
@@ -90,13 +69,13 @@ namespace TXTextControl.DocumentServer.Forms
 
                             lAcroForm.Add(newAcroFormCheckBox);
                         }
-                        else if(obj.ButtonFieldFlags.IsPushbutton) // Case PushButton
+                        else if (obj.ButtonFieldFlags.IsPushbutton) // Case PushButton
                         {
                             AcroFormButton newAcroFormButton = new AcroFormButton(newAcroForm);
 
                             lAcroForm.Add(newAcroFormButton);
                         }
-                        else if(obj.ButtonFieldFlags.IsRadio) // Case RadioButton
+                        else if (obj.ButtonFieldFlags.IsRadio) // Case RadioButton
                         {
                             AcroFormRadioButton newAcroFormRadioButton = new AcroFormRadioButton(newAcroForm);
                             newAcroFormRadioButton.IsChecked = "Yes".Equals(obj.FieldValue);
@@ -129,13 +108,66 @@ namespace TXTextControl.DocumentServer.Forms
                             AcroFormListBox newAcroFormListBox = new AcroFormListBox(newAcroFormChoice);
                             lAcroForm.Add(newAcroFormListBox);
                         }
-                        
+
                         break;
                 }
             }
 
             // return the array of elements
             return lAcroForm.ToArray();
+        }
+
+
+        /*-------------------------------------------------------------------------------------------------------
+	    ** ImportForms method
+	    **-----------------------------------------------------------------------------------------------------*/
+        public static AcroForm[] ImportForms(string Filename)
+        {
+            // check, if the file exists
+            if (File.Exists(Filename) == false)
+                throw new FileNotFoundException("The specified file could not be found.", Filename);
+
+            string sAcroFormsXml;
+
+            // create a temporary ServerTextControl to import the PDF form XML
+            using (TXTextControl.ServerTextControl tx = new TXTextControl.ServerTextControl())
+            {
+                tx.Create();
+                TXTextControl.LoadSettings ls = new TXTextControl.LoadSettings();
+                ls.PDFImportSettings = TXTextControl.PDFImportSettings.GenerateXML;
+
+                tx.Load(Filename, TXTextControl.StreamType.AdobePDF, ls);
+
+                sAcroFormsXml = tx.Text;
+            }
+
+            return ProcessForm(sAcroFormsXml);
+        }
+
+        /*-------------------------------------------------------------------------------------------------------
+	    ** ImportForms method
+	    **-----------------------------------------------------------------------------------------------------*/
+        public static AcroForm[] ImportForms(byte[] Data)
+        {
+            // check, if the file exists
+            if (Data == null)
+                throw new InvalidDataException("Data is not valid.");
+
+            string sAcroFormsXml;
+
+            // create a temporary ServerTextControl to import the PDF form XML
+            using (TXTextControl.ServerTextControl tx = new TXTextControl.ServerTextControl())
+            {
+                tx.Create();
+                TXTextControl.LoadSettings ls = new TXTextControl.LoadSettings();
+                ls.PDFImportSettings = TXTextControl.PDFImportSettings.GenerateXML;
+
+                tx.Load(Data, TXTextControl.BinaryStreamType.AdobePDF, ls);
+
+                sAcroFormsXml = tx.Text;
+            }
+
+            return ProcessForm(sAcroFormsXml);
         }
     }
 }
