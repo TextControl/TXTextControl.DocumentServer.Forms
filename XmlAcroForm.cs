@@ -2,7 +2,7 @@
  * module:			TXTextControl.DocumentServer.Forms
  *
  * copyright:		© Text Control GmbH
- * version:			TextControl 28.0
+ * version:			TextControl 30.0
  *-----------------------------------------------------------------------------------------------------------*/
 
 using System.Drawing;
